@@ -1,0 +1,36 @@
+{
+  "name": "naxap-server",
+  "version": "1.0.0",
+  "description": "This contains endpoint for naxap-clients to connect",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anuragzv1/naxap-server.git"
+  },
+  "keywords": [
+    "naxap-server",
+    "naxap-api"
+  ],
+  "author": "Anurag singh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anuragzv1/naxap-server/issues"
+  },
+  "homepage": "https://github.com/anuragzv1/naxap-server#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "deasync": "^0.1.15",
+    "express": "^4.16.4",
+    "express-mysql-session": "^2.1.0",
+    "hbs": "^4.0.4",
+    "jsonfile": "^5.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mysql": "^2.16.0",
+    "redis": "^2.8.0",
+    "request": "^2.88.0"
+  }
+}

