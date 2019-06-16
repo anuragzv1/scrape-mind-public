@@ -36,13 +36,13 @@ router.post('/update_status', (req, res) => {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     email = req.body.email;
     __redisConfig.client.hset(email, ['up', '1']);
+    __redisConfig.client.hset(email,['url',req.body.url]);
 });
 
 
 
 router.post('/displayquery', (req, res) => {
     //Code for displaying server stats here
-
 
 });
 
