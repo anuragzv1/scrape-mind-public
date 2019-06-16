@@ -15,7 +15,6 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>Id</th>
         <th>Email</th>
         
       </tr>
@@ -23,9 +22,8 @@
     <tbody>
         {{#each results}}
         <tr>
-        <td>{{this.id}}</td>
-        <td>{{this.email}}</td>
-        <td><a href="/config/{{this.id}}">config</a></td>
+        <td>{{this}}</td>
+        <td><a href="/config/{{this}}">config</a></td>
         </tr>
         {{/each}}
     </tbody>

@@ -15,6 +15,7 @@ try {
     return process.exit(-1);
 }
 global.__redisConfig = config.redisConfig;
+
 //Global Inspection Function
 global.__inspect = function (obj, stringify) {
     console.log("[inspect] " + new Date().toGMTString() + " : OBJECT => ", ((stringify) ? JSON.stringify(obj) : obj));
@@ -34,6 +35,7 @@ dirs.forEach(dir => {
         fs.mkdirSync(dir);
     }
 });
+
 //Set logger
 if (process.env.NODE_ENV == global.__ENV_LIST.development) {
     //Global Debug Function
@@ -114,6 +116,7 @@ if (process.env.NODE_ENV == global.__ENV_LIST.development) {
 }
 
 global.__redisConfig = config.redisConfig;
+global.uphosts;
 const express = require('express');
 var bodyParser = require('body-parser')
 const jwt = require('jsonwebtoken');
@@ -146,13 +149,54 @@ app.get('/config/:id', (req, res) => {
 });
 
 app.get('/live', (req, res) => {
+    __redisConfig.client.scan(0, "MATCH", "*@*", (err, reply) => {
+        if (!err) {
+            length = reply.length;
+            var uphosts = [];
+            var q = 0;
+            var p = 0;
+                reply[1].forEach(email => {
+                    __redisConfig.client.hset(email, ['up', '0']);
+                });
 
-    res.render('live', {
-        data: "here's the list of live hosts.",
-        results: results
+                    setTimeout(function(){
+                        reply[1].forEach(email => {
+                            __redisConfig.client.hgetall(email, (err, reply) => {
+                                if (reply.up == 1) {
+                                    uphosts.push(email);
+                                    q++;
+                                }
+                                else p++;
+                                if ((p + q) == length) {
+                                    if(uphosts.length!=0){
+                                        res.render('live',{
+                                            results:uphosts,
+                                            data:''
+                                        });
+                                    }
+                                    else if (uphosts.length==0){
+                                        res.render('live',{
+                                            results:null,
+                                            data:'No live hosts.. refresh..'
+                                        }); 
+                                    }
+
+                                }
+                            });
+                        });
+                    },1500)
+                
+        }
+
+
+        if (err) {
+            res.send(err);
+        }
     });
 
 });
+
+
 app.listen(port, () => {
     console.log(`Started server at ${port} port`);
-})
+});
