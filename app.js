@@ -6,6 +6,8 @@ const fs = require('fs');
 const path = require('path');
 const deasync = require('deasync');
 const readConfig = require('jsonfile').readFileSync;
+var localtunnel = require('localtunnel');
+
 
 //Load Config File
 try {
@@ -143,10 +145,27 @@ app.use('/api', api);
 //Configuration page for particular client
 app.get('/config/:id', (req, res) => {
     var id = req.params.id;
-    res.render('config', {
-        id: req.params.id
+    __redisConfig.client.hgetall(id, (err, reply) => {
+        if(!err){
+            console.log(reply);
+            if(reply==null){
+                res.render('config', {
+                    id: 'User does not exist/down'
+                });
+            }
+            else if(reply!=null){
+                res.render('config', {
+                    id: req.params.id,
+                    data:reply
+                });
+            }
+        }
     });
+    
+
 });
+
+
 
 app.get('/live', (req, res) => {
     __redisConfig.client.scan(0, "MATCH", "*@*", (err, reply) => {

@@ -2,6 +2,7 @@ const express = require('express');
 var bodyParser = require('body-parser')
 const jwt = require('jsonwebtoken');
 router = express.Router();
+var rdp = require('node-rdpjs');
 
 
 router.post('/checkcredentials', (req, res) => {
@@ -36,7 +37,7 @@ router.post('/update_status', (req, res) => {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     email = req.body.email;
     __redisConfig.client.hset(email, ['up', '1']);
-    __redisConfig.client.hset(email,['url',req.body.url]);
+    __redisConfig.client.hset(email, ['url', req.body.url]);
 });
 
 
@@ -63,5 +64,12 @@ router.post('/updateenginestatus', (req, res) => {
 
 });
 
+router.get('/rdp/:id', (req, res) => {
+    var id = req.params.id;
+    __redisConfig.client.hgetall(id, (err, reply) => {
+        url = reply.url;
+
+    });
+});
 
 module.exports = router;
